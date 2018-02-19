@@ -74,7 +74,6 @@ public class GraphManager {
 
           arcFX.setPointe(pointe);
           arcFX.lier(Tetha.startSommet.centerXProperty(), Tetha.startSommet.centerYProperty(), Tetha.endSommet.centerXProperty(), Tetha.endSommet.centerYProperty());
-          arcFX.setControlY(175);
           arcFX.setController(getController());
            
           Tetha.startSommet.getNextSommets().add(new Object[]{ Tetha.endSommet,arcFX});
@@ -85,10 +84,10 @@ public class GraphManager {
           Tetha.endSommet.getListLiens().add(arcFX);
           arcFX.getListSommets().add(Tetha.startSommet);
           arcFX.getListSommets().add(Tetha.endSommet);
-          
           //  System.err.println(arcFX);
          groupGraph.getChildren().addAll(pointe,arcFX,arcFX.getVij(),arcFX.getTxfVij());
          pointe.update();
+          arcFX.toBack();
                 
            Tetha.startSommet =null;
            Tetha.endSommet =null;
