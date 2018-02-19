@@ -1,0 +1,12 @@
+Lambda
+Vij
+X:id
+Couleur
+List sommetIndexEmpty
+sommet predecesseur 
+sommet successeur
+coordonnee centre x,y sommet
+cordonnee arc  debut x,y fin x,y control x,y
+id de 2 sommets noeud de l'arc
+
+Taf: A chaque instanciation de la classe il doit instancier la classe serializable
