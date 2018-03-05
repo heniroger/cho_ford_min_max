@@ -6,6 +6,7 @@ import edu.emit.project.Main;
 import edu.emit.project.app.ResultTableRowFX;
 import edu.emit.project.model.AbstractModel;
 import edu.emit.project.model.FordFulkerson;
+import edu.emit.project.model.Gamma;
 import edu.emit.project.model.Sommet;
 import edu.emit.project.model.serializable.DataSerializable;
 import edu.emit.project.model.serializable.GraphManager;
@@ -202,7 +203,7 @@ public class FordFulkersonFXController implements Initializable{
            
             data.clear();
             tabView.getItems().clear();
-            data = FXCollections.observableArrayList(testMinimisation());
+            data = FXCollections.observableArrayList(getMinimization());
             tabView.setItems(data);
             
             
@@ -429,12 +430,26 @@ public class FordFulkersonFXController implements Initializable{
         this.setOptimisationType(FordFulkerson.MINIMIZATION_TYPE);
         this.setNombreSommet(sommetFXs.size());
 
-        for (int j = 0; j < arcFXs.size(); j++) {
+        ArrayList<Object[]> objects = new ArrayList<>();
+        ArrayList<Object[]> obs = new ArrayList<>();
+         Gamma gamma = new Gamma();
+
+         for (int j = 0; j < arcFXs.size(); j++) {
             ArcFX arcFX = arcFXs.get(j);
             arcFX.getListSommets();
-            this.setArc(arcFX.getListSommets().get(0).getID(),arcFX.getListSommets().get(1).getID(), 10);
             
+            objects.add(new Object[]{arcFX.getListSommets().get(0).getID(),arcFX.getListSommets().get(1).getID(),arcFX.getV_ij()});
+   
         }
+         obs = gamma.convertToArrangedArrayList(objects);
+         
+         for (int k = 0; k < obs.size(); k++) {
+                 Integer from = (Integer)obs.get(k)[0];
+                 Integer to  = (Integer)obs.get(k)[1];
+                 Double vij  = (Double)obs.get(k)[2];
+                this.setArc(from,to, vij);
+                 
+          }
 
 
         this.control();//Tsy maintsy asiana anio ein!! Tsy azo atao am place hafa

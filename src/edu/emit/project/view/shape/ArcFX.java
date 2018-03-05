@@ -54,7 +54,6 @@ public class ArcFX extends QuadCurve{
         txfVij.setPrefWidth(50);
         txfVij.setLayoutX(getControlX()-75);
         txfVij.setLayoutY(getControlY()+75);
-
     } 
     public void lier(DoubleProperty startX,DoubleProperty startY,DoubleProperty endX,DoubleProperty endY){
         try {
@@ -72,10 +71,10 @@ public class ArcFX extends QuadCurve{
         endYProperty().bind(endY);
        // controlXProperty().bind(startX.add(endX));
         //controlXProperty().bind(startY.add(endY));
-        getVij().layoutXProperty().bind(controlXProperty().add(75));
-        getVij().layoutYProperty().bind(controlYProperty().subtract(25));
-        getTxfVij().layoutXProperty().bind(controlXProperty().add(135));
-        getTxfVij().layoutYProperty().bind(controlYProperty().subtract(30));
+        getVij().layoutXProperty().bind(controlXProperty().add(15));
+        getVij().layoutYProperty().bind(controlYProperty().subtract(5));
+        getTxfVij().layoutXProperty().bind(controlXProperty().add(75));
+        getTxfVij().layoutYProperty().bind(controlYProperty().subtract(10));
      
          enableClickEvent();
          enableDrag();
@@ -150,6 +149,8 @@ public class ArcFX extends QuadCurve{
           if (!mouseEvent.isPrimaryButtonDown()) {
             getScene().setCursor(Cursor.HAND);
            setStroke(Color.GREEN);
+           txfVij.setStyle("-fx-border-color:green;");
+           vij.setTextFill(Color.GREEN);
 
           }
         }
@@ -159,6 +160,8 @@ public class ArcFX extends QuadCurve{
           if (!mouseEvent.isPrimaryButtonDown()) {
             getScene().setCursor(Cursor.DEFAULT);
             setStroke(Color.BLACK.deriveColor(0, 1, 1, 0.5));
+            txfVij.setStyle("-fx-border-color:gray;");
+           vij.setTextFill(Color.BLACK);
 
           }
         }
