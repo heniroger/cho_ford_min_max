@@ -84,6 +84,7 @@ public class GraphManager {
           Tetha.endSommet.getListLiens().add(arcFX);
           arcFX.getListSommets().add(Tetha.startSommet);
           arcFX.getListSommets().add(Tetha.endSommet);
+          arcFX.getTxfVij().setText(String.valueOf(arcFX.getV_ij()));
           //  System.err.println(arcFX);
          groupGraph.getChildren().addAll(pointe,arcFX,arcFX.getVij(),arcFX.getTxfVij());
          pointe.update();
@@ -179,7 +180,7 @@ public class GraphManager {
             ArcFX arcFX = arcFXList.get(i);
             ArcSerializable arcSerializable =new ArcSerializable(arcFX.getStartX(), arcFX.getStartY(), 
                     arcFX.getEndX(), arcFX.getEndY(), arcFX.getControlX(), arcFX.getControlY(), arcFX.getV_ij());
-            arcSerializable.setVij(arcFX.getV_ij());
+            arcSerializable.setVij(Double.parseDouble(arcFX.getTxfVij().getText()));
             SommetFX sommetFXStart =  arcFX.getListSommets().get(0);
             SommetSerializable sommetSerializableStart = new SommetSerializable(sommetFXStart.getCenterX(), sommetFXStart.getCenterY(),
                     sommetFXStart.getLambda(),sommetFXStart.getTypeSommet(), sommetFXStart.getID());

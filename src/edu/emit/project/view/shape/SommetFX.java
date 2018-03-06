@@ -223,7 +223,7 @@ public class SommetFX extends Circle{
 
                         lien.setPointe(pointe);
                         lien.lier(Tetha.startSommet.centerXProperty(), Tetha.startSommet.centerYProperty(), Tetha.endSommet.centerXProperty(), Tetha.endSommet.centerYProperty());
-                        lien.setControlY(175);
+                        lien.setControlY(getCenterY());
                         lien.setController(getController());
                         
                         
@@ -237,10 +237,11 @@ public class SommetFX extends Circle{
                         lien.getListSommets().add(Tetha.endSommet);
                         lien.setV_ij(Double.parseDouble(lien.getTxfVij().getText()));
                         getController().getGraphManager().getArcFXList().add(lien);
-
+                                              
                         Group group = (Group) context.getParent();
                         group.getChildren().addAll(pointe,lien,lien.getVij(),lien.getTxfVij());
                         pointe.update();
+                        lien.toBack();
                         
                         Tetha.startSommet =null;
                         Tetha.endSommet =null;
