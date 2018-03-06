@@ -22,7 +22,7 @@ public class Gamma {
             Integer integera = (int)objects.get(i)[0];
             Integer integero = (int) objects.get(i)[1];
             Double db = (double) objects.get(i)[2];
-             System.out.print(""+integera+","+integero+","+db+"\t|| \t");
+ //            System.out.print(""+integera+","+integero+","+db+"\t|| \t");
             
         }
          
@@ -35,7 +35,7 @@ public class Gamma {
                 ++w;
                 for (int i = 0; i < objects.size(); i++) {
                            //Arrangement des iterations
-                           System.out.println("i="+i);
+                  //         System.out.println("i="+i);
 
                             if ((int)objects.get(i)[0] == w) {
                                    for (int j = 0; j < iterationGroupByDuplication.size(); j++) {
@@ -44,7 +44,7 @@ public class Gamma {
                                             iterationGroupByDuplication.get(j).getIntArrayList().add((int)objects.get(i)[1]);
                                             iterationGroupByDuplication.get(j).getVijMap().put((int)objects.get(i)[1],(Double)objects.get(i)[2]);
                                             Collections.sort(iterationGroupByDuplication.get(j).getIntArrayList());
-                                            System.out.println("==========W Existe"+w);
+                                     //       System.out.println("==========W Existe"+w);
                                             already =true;
                                             break;
                                         }else{
@@ -54,7 +54,7 @@ public class Gamma {
                                    
                                    if (already==false) {
                                     
-                                        System.out.println("w="+w);
+                             //           System.out.println("w="+w);
                                          iterationArranged.add(objects.get(i));
                                          alpha.getIntArrayList().add((int)objects.get(i)[1]);
                                          alpha.getVijMap().put((int)objects.get(i)[1],(Double)objects.get(i)[2]);
@@ -79,10 +79,10 @@ public class Gamma {
         
          ArrayList<Object[]> objectsBis = new ArrayList<>();
          for (int i = 0; i < iterationGroupByDuplication.size(); i++) {
-            System.out.println(""+iterationGroupByDuplication.get(i).getIteration());
+         //   System.out.println(""+iterationGroupByDuplication.get(i).getIteration());
              for (int j = 0; j < iterationGroupByDuplication.get(i).getIntArrayList().size(); j++) {
                  Integer f = iterationGroupByDuplication.get(i).getIntArrayList().get(j);
-                  System.out.println("...."+f);
+           //       System.out.println("...."+f);
                   objectsBis.add(new Object[]{iterationGroupByDuplication.get(i).getIteration(),
                       iterationGroupByDuplication.get(i).getIntArrayList().get(j),
                       iterationGroupByDuplication.get(i).getVijMap().get(iterationGroupByDuplication.get(i).getIntArrayList().get(j))});
@@ -95,7 +95,7 @@ public class Gamma {
             Integer integera = (int)objectsBis.get(i)[0];
             Integer integero = (int) objectsBis.get(i)[1];
             Double db = (double) objectsBis.get(i)[2];
-             System.out.print(""+integera+","+integero+","+db+"\t|| \t");
+      //       System.out.print(""+integera+","+integero+","+db+"\t|| \t");
             
         }
         return objectsBis;

@@ -7,6 +7,7 @@ import edu.emit.project.app.ResultTableRowFX;
 import edu.emit.project.model.AbstractModel;
 import edu.emit.project.model.FordFulkerson;
 import edu.emit.project.model.Gamma;
+import edu.emit.project.model.GraphColorifier;
 import edu.emit.project.model.Sommet;
 import edu.emit.project.model.serializable.DataSerializable;
 import edu.emit.project.model.serializable.GraphManager;
@@ -106,7 +107,7 @@ public class FordFulkersonFXController implements Initializable{
         setSpXnOnMousePressed();
 
         
-        anchPaneGraph.getChildren().add(groupGraph);
+        anchPaneGraph.getChildren().add(getGroupGraph());
         
         model = new FordFulkerson();
         data = FXCollections.observableArrayList();
@@ -234,7 +235,7 @@ public class FordFulkersonFXController implements Initializable{
                 getGraphManager().setController(controller);
                 getGraphManager().convertToSommetFXList();
                 getGraphManager().convertToArcFXList();
-                getGraphManager().displayToGraph(groupGraph);
+                getGraphManager().displayToGraph(getGroupGraph());
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(FordFulkersonFXController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -312,15 +313,16 @@ public class FordFulkersonFXController implements Initializable{
         disableSpX(spXn, TYPE_XN);
     //    SommetFX.clearXiList();
         
-        for (int j = 0; j < groupGraph.getChildren().size(); j++) {
-            if (groupGraph.getChildren().get(j).getClass().equals(Xi.class)) {
-                ((Xi)groupGraph.getChildren().get(1)).resetIteration();
+        for (int j = 0; j < getGroupGraph().getChildren().size(); j++) {
+            if (getGroupGraph().getChildren().get(j).getClass().equals(Xi.class)) {
+                ((Xi)getGroupGraph().getChildren().get(1)).resetIteration();
                 break;
             }
             
         }
         
-        groupGraph.getChildren().clear();
+        tabView.getItems().clear();
+        getGroupGraph().getChildren().clear();
     }
 
     
@@ -353,10 +355,9 @@ public class FordFulkersonFXController implements Initializable{
         if (getModel().getOptimisationType()== FordFulkerson.MINIMIZATION_TYPE) {
             getModel().calculerMinimisation();
             ArrayList<Sommet> sommets =getModel().calculerCheminMinimal(getModel().getListSommet());
-            for (int i = 0; i < sommets.size(); i++) {
-                // System.err.println(sommets.get(i));
-                 
-             }
+            GraphColorifier colorifier = new GraphColorifier(sommets, getGraphManager());
+            setController(this);
+            colorifier.colorify();
         }else if(getModel().getOptimisationType()== FordFulkerson.MAXIMIZATION_TYPE){
             getModel().calculerMaximisation();
              ArrayList<Sommet> sommets =getModel().calculerCheminMinimal(getModel().getListSommet());
@@ -424,7 +425,7 @@ public class FordFulkersonFXController implements Initializable{
         return getResultTableRowFXs();
     }
     public final ArrayList<ResultTableRowFX> getMinimization()throws AbstractModel.OptimizationTypeException{
-        GraphManager  graphManager = getGraphManager();
+         GraphManager  graphManager = getGraphManager();
         ArrayList<ArcFX> arcFXs = graphManager.getArcFXList();
         ArrayList<SommetFX> sommetFXs = graphManager.getSommetFXList();
         this.setOptimisationType(FordFulkerson.MINIMIZATION_TYPE);
@@ -531,9 +532,9 @@ public class FordFulkersonFXController implements Initializable{
         
         
             if (anchPaneGraph.getChildren().contains(Group.class)) {
-                for (int j = 0; j < groupGraph.getChildren().size(); j++) {
+                for (int j = 0; j < getGroupGraph().getChildren().size(); j++) {
                     
-                     System.out.println( groupGraph.getChildren().get(j));
+                     System.out.println(getGroupGraph().getChildren().get(j));
                 }
                
             }
@@ -613,10 +614,10 @@ public class FordFulkersonFXController implements Initializable{
                     x1.getLblName().setText("X"+String.valueOf(x1.getID()));
                     x1.setController(getController());
                     
-                    groupGraph.getChildren().add(x1);
-                    groupGraph.getChildren().add(x1.getLblName());
-                    groupGraph.getChildren().add(x1.getLblLambda());
-                    groupGraph.getChildren().add(x1.getTxfLambda());
+                    getGroupGraph().getChildren().add(x1);
+                    getGroupGraph().getChildren().add(x1.getLblName());
+                    getGroupGraph().getChildren().add(x1.getLblLambda());
+                    getGroupGraph().getChildren().add(x1.getTxfLambda());
                     
                     getGraphManager().getSommetFXList().add(x1);
                     //makeDraggable(x1, spX1);
@@ -642,10 +643,10 @@ public class FordFulkersonFXController implements Initializable{
                     xi.getLblName().setText("X"+String.valueOf(xi.getID()));
                     xi.setController(getController());
                     
-                    groupGraph.getChildren().add(xi);
-                    groupGraph.getChildren().add(xi.getLblName());
-                    groupGraph.getChildren().add(xi.getLblLambda());
-                    groupGraph.getChildren().add(xi.getTxfLambda());
+                    getGroupGraph().getChildren().add(xi);
+                    getGroupGraph().getChildren().add(xi.getLblName());
+                    getGroupGraph().getChildren().add(xi.getLblLambda());
+                    getGroupGraph().getChildren().add(xi.getTxfLambda());
                     
                     getGraphManager().getSommetFXList().add(xi);
                     ++i;
@@ -672,10 +673,10 @@ public class FordFulkersonFXController implements Initializable{
                   xn.setID(main.sommetIndexEmpty.size());
                   xn.getLblName().setText("X"+String.valueOf(xn.getID()));
                   xn.setController(getController());
-                  groupGraph.getChildren().add(xn);
-                  groupGraph.getChildren().add(xn.getLblName());
-                  groupGraph.getChildren().add(xn.getLblLambda());
-                  groupGraph.getChildren().add(xn.getTxfLambda());
+                    getGroupGraph().getChildren().add(xn);
+                    getGroupGraph().getChildren().add(xn.getLblName());
+                    getGroupGraph().getChildren().add(xn.getLblLambda());
+                    getGroupGraph().getChildren().add(xn.getTxfLambda());
                 
                     getGraphManager().getSommetFXList().add(xn);
                     disableSpX(spXi, TYPE_XI);
@@ -684,6 +685,20 @@ public class FordFulkersonFXController implements Initializable{
               }
             }
         });
+    }
+
+    /**
+     * @return the groupGraph
+     */
+    public Group getGroupGraph() {
+        return groupGraph;
+    }
+
+    /**
+     * @param groupGraph the groupGraph to set
+     */
+    public void setGroupGraph(Group groupGraph) {
+        this.groupGraph = groupGraph;
     }
 
 }
