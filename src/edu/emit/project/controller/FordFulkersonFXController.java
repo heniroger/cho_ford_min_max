@@ -48,6 +48,7 @@ import javafx.stage.Stage;
 import edu.emit.project.view.shape.SommetFX;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
@@ -69,6 +70,7 @@ public class FordFulkersonFXController implements Initializable{
     @FXML private StackPane spX1;
     @FXML private StackPane spXi;
     @FXML private StackPane spXn;
+    @FXML private CheckBox chkMaximize;
     
     @FXML private Polygon triangle;
     @FXML private Line line;
@@ -201,11 +203,18 @@ public class FordFulkersonFXController implements Initializable{
     }
     @FXML protected void btnRunAction(){
         try {
-           
-            data.clear();
-            tabView.getItems().clear();
-            data = FXCollections.observableArrayList(getMinimization());
-            tabView.setItems(data);
+            if (!chkMaximize.isSelected()) {
+                data.clear();
+                tabView.getItems().clear();
+                data = FXCollections.observableArrayList(getMinimization());
+                tabView.setItems(data);
+            }else{
+                 data.clear();
+                tabView.getItems().clear();
+                data = FXCollections.observableArrayList(getMaximization());
+                tabView.setItems(data);
+            
+            }
             
             
             
@@ -361,10 +370,9 @@ public class FordFulkersonFXController implements Initializable{
         }else if(getModel().getOptimisationType()== FordFulkerson.MAXIMIZATION_TYPE){
             getModel().calculerMaximisation();
              ArrayList<Sommet> sommets =getModel().calculerCheminMinimal(getModel().getListSommet());
-             for (int i = 0; i < sommets.size(); i++) {
-                // System.err.println(sommets.get(i));
-                 
-             }
+            GraphColorifier colorifier = new GraphColorifier(sommets, getGraphManager());
+            setController(this);
+            colorifier.colorify();
         }else{
             Log.error(this);
         }
@@ -464,7 +472,46 @@ public class FordFulkersonFXController implements Initializable{
        
         return getResultTableRowFXs();
     }
-    
+    public final ArrayList<ResultTableRowFX> getMaximization()throws AbstractModel.OptimizationTypeException{
+         GraphManager  graphManager = getGraphManager();
+        ArrayList<ArcFX> arcFXs = graphManager.getArcFXList();
+        ArrayList<SommetFX> sommetFXs = graphManager.getSommetFXList();
+        this.setOptimisationType(FordFulkerson.MAXIMIZATION_TYPE);
+        this.setNombreSommet(sommetFXs.size());
+
+        ArrayList<Object[]> objects = new ArrayList<>();
+        ArrayList<Object[]> obs = new ArrayList<>();
+         Gamma gamma = new Gamma();
+
+         for (int j = 0; j < arcFXs.size(); j++) {
+            ArcFX arcFX = arcFXs.get(j);
+            arcFX.getListSommets();
+            
+            objects.add(new Object[]{arcFX.getListSommets().get(0).getID(),arcFX.getListSommets().get(1).getID(),arcFX.getV_ij()});
+   
+        }
+         obs = gamma.convertToArrangedArrayList(objects);
+         
+         for (int k = 0; k < obs.size(); k++) {
+                 Integer from = (Integer)obs.get(k)[0];
+                 Integer to  = (Integer)obs.get(k)[1];
+                 Double vij  = (Double)obs.get(k)[2];
+                this.setArc(from,to, vij);
+                 
+          }
+
+
+        this.control();//Tsy maintsy asiana anio ein!! Tsy azo atao am place hafa
+
+        for (int i = 0; i < this.getModelResultRows().size(); i++) {
+            addResultTableRowFXs(new ResultTableRowFX(this.getModelResultRows().get(i)));
+
+        }
+            
+
+       
+        return getResultTableRowFXs();
+    }    
     private void addResultTableRowFXs(ResultTableRowFX resultTableRowFX){
         resultTableRowFXs.add(resultTableRowFX);
     }

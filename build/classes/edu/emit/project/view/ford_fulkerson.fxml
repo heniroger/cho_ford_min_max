@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Double?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
+
+<BorderPane id="borderPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.emit.project.controller.FordFulkersonFXController">
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <Button fx:id="btnOpen" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#btnOpenAction" prefHeight="20.0" prefWidth="20.0" style="-fx-border-color: #00000000; -fx-background-color: #00000000;">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/open.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="btnRun" mnemonicParsing="false" onAction="#btnRunAction" prefHeight="20.0" prefWidth="20.0" style="-fx-border-color: #00000000; -fx-background-color: #00000000;">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-color: white;">
+                     <image>
+                        <Image url="@icons/run.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveAction" style="-fx-border-color: #00000000; -fx-background-color: #00000000;" textOverrun="CLIP">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/save.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="btnClear" mnemonicParsing="false" onAction="#btnClearAction" style="-fx-border-color: #00000000; -fx-background-color: #00000000;">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/clear.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <StackPane fx:id="spX1" prefHeight="20.0" prefWidth="20.0">
+               <children>
+                  <Circle fx:id="circleX1" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label text="X1" />
+               </children>
+            </StackPane>
+            <StackPane fx:id="spXi" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #BBBBBB;">
+               <children>
+                  <Circle fx:id="circleXi" fill="#f6f9fc" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label text="Xi" />
+               </children>
+            </StackPane>
+            <StackPane fx:id="spXn" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #BBBBBB;">
+               <children>
+                  <Circle fx:id="circleXn" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label text="Xn" />
+               </children>
+            </StackPane>
+            <StackPane prefHeight="20.0" prefWidth="20.0">
+               <children>
+                  <Group fx:id="fleche" layoutX="5.0" layoutY="5.0">
+                     <children>
+                        <Polygon fx:id="triangle" rotate="60.0" scaleX="0.08" scaleY="0.08" scaleZ="0.2" stroke="BLACK" strokeType="INSIDE" translateX="20.0">
+                          <points>
+                            <Double fx:value="-50.0" />
+                            <Double fx:value="40.0" />
+                            <Double fx:value="50.0" />
+                            <Double fx:value="40.0" />
+                            <Double fx:value="0.0" />
+                            <Double fx:value="-60.0" />
+                          </points>
+                        </Polygon>
+                        <Line fx:id="line" endX="20.0" endY="-10.0" startX="-10.0" startY="10.0" />
+                     </children>
+                  </Group>
+               </children>
+            </StackPane>
+            <Button fx:id="btnTest" mnemonicParsing="false" onAction="#btnTestAction" text="Button" />
+            <CheckBox fx:id="chkMaximize" mnemonicParsing="false" text="Maximise" />
+         </items>
+      </ToolBar>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" BorderPane.alignment="CENTER">
+         <items>
+            <AnchorPane fx:id="anchPaneGraph" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+            <TableView fx:id="tabView" prefHeight="200.0" prefWidth="584.0" />
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>
