@@ -12,12 +12,8 @@ import edu.emit.project.model.LambdaManager;
 import edu.emit.project.model.Sommet;
 import edu.emit.project.model.serializable.DataSerializable;
 import edu.emit.project.model.serializable.GraphManager;
-import edu.emit.project.model.serializable.SommetSerializable;
 import edu.emit.project.view.shape.ArcFX;
-import edu.emit.project.view.shape.ArcFXOld;
-import edu.emit.project.view.shape.X1;
-import edu.emit.project.view.shape.Xi;
-import edu.emit.project.view.shape.Xn;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -62,11 +58,7 @@ public class FordFulkersonFXController implements Initializable{
     
     private FordFulkersonFXController controller = this;
     Main main  = new Main();
-    @FXML private Button btnSave;
-    @FXML private Button btnOpen;
-    @FXML private Button btnRun;
-    @FXML private Button btnClear;
-    @FXML private Button btnTest;
+
     
     @FXML private StackPane spX1;
     @FXML private StackPane spXi;
@@ -153,54 +145,6 @@ public class FordFulkersonFXController implements Initializable{
     
     private boolean refresh =false;
     @FXML protected void btnTestAction(){
-    
-        Group g =(Group)anchPaneGraph.getChildren().get(0);
-        SommetSerializable sommetSerializable;
-        SommetFX sommetFX=null;
-         double centerX;
-         double centerY;
-         double lambda;
-         int iteration=0;
-         int iterationType=0;
-         
-        for (int j = 0; j < g.getChildren().size(); j++) {
-            
-            if (!g.getChildren().get(j).equals(X1.class)|| !g.getChildren().get(j).equals(Xi.class) || !g.getChildren().get(j).equals(Xn.class)) {
-                // System.out.println(g.getChildren().get(j));
-                if (g.getChildren().get(j).equals(X1.class)) {
-                   // sommetFX =(X1) g.getChildren().get (j);
-                    
-                }else if (g.getChildren().get(j).equals(Xi.class)) {
-                    //sommetFX =(Xi) g.getChildren().get (j);
-                }else if (g.getChildren().get(j).equals(Xn.class)) {
-                    //sommetFX =(Xn) g.getChildren().get (j);
-                }
-             centerX = sommetFX.getCenterX();
-             centerY = sommetFX.getCenterY();
-            // lambda =sommetFX.getLambdaValue();
-          /*   
-             if (sommetFX.getIteration()==1) {
-                 iterationType = SommetSerializable.X1;
-              } else if(sommetFX.getIteration()==sommetFX.getLastIteration()){
-                 iterationType = SommetSerializable.XN;
-              }else{
-                 iterationType = SommetSerializable.XI;
-                  
-              }
-             */
-                
-             //sommetSerializable = new SommetSerializable(centerX, centerY,lambda , iterationType, iteration, 0, 0);
-                 
-              //   System.out.println(sommetSerializable);
-                 
-              }
-            
-               
-
-            
-            
-        }
-        
     }
     @FXML protected void btnRunAction(){
         try {
@@ -315,7 +259,6 @@ public class FordFulkersonFXController implements Initializable{
                 }
             }
         }
-        //dirChooser
         
     }
     
@@ -323,15 +266,16 @@ public class FordFulkersonFXController implements Initializable{
         enableSpX(spX1, TYPE_X1);
         disableSpX(spXi, TYPE_XI);
         disableSpX(spXn, TYPE_XN);
-    //    SommetFX.clearXiList();
+        main.sommetIndexEmpty.clear();
+//        SommetFX.clearXiList();
         
-        for (int j = 0; j < getGroupGraph().getChildren().size(); j++) {
-            if (getGroupGraph().getChildren().get(j).getClass().equals(Xi.class)) {
-                ((Xi)getGroupGraph().getChildren().get(1)).resetIteration();
-                break;
-            }
-            
-        }
+//        for (int j = 0; j < getGroupGraph().getChildren().size(); j++) {
+//            if (getGroupGraph().getChildren().get(j).getClass().equals(Xi.class)) {
+//                ((Xi)getGroupGraph().getChildren().get(1)).resetIteration();
+//                break;
+//            }
+//            
+//        }
         
         tabView.getItems().clear();
         getGroupGraph().getChildren().clear();
@@ -541,22 +485,6 @@ public class FordFulkersonFXController implements Initializable{
         return this.resultTableRowFXs;
     }
     
-    private Group testGraphicSommet(){
-        X1 x1= new X1();
-        Xi x2 = new Xi();
-        Xi x3 = new Xi();
-        Xi x4 = new Xi();
-        Xi x5 = new Xi();
-        Xn xn = new Xn();
-        
-        ArcFXOld arc = new ArcFXOld();
-        ArcFXOld arc2 = new ArcFXOld();
-        ArcFXOld arc3 = new ArcFXOld();
-        
-        Group g = new Group();
-        g.getChildren().addAll(x1,x2,x3,x4,x5,xn,arc,arc2,arc3);
-        return g;
-    }
     
     private void disableSpX(StackPane toolbarXi,int type){
         toolbarXi.setStyle("-fx-background-color:#BBBBBB");
@@ -689,7 +617,6 @@ public class FordFulkersonFXController implements Initializable{
                     getGroupGraph().getChildren().add(x1.getTxfLambda());
                     
                     getGraphManager().getSommetFXList().add(x1);
-                    //makeDraggable(x1, spX1);
                     disableSpX(spX1, TYPE_X1);
                     enableSpX(spXi, TYPE_XI);
                 }
