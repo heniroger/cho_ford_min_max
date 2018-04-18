@@ -65,9 +65,9 @@ public class FordFulkersonFXController implements Initializable{
     @FXML private StackPane spXn;
     @FXML private CheckBox chkMaximize;
     
-    @FXML private Polygon triangle;
-    @FXML private Line line;
-    @FXML private Group fleche;
+    //@FXML private Polygon triangle;
+    //@FXML private Line line;
+    //@FXML private Group fleche;
     
     
     @FXML private AnchorPane anchPaneGraph;
@@ -85,15 +85,17 @@ public class FordFulkersonFXController implements Initializable{
     private ObservableList<ResultTableRowFX> data ;
     private  ArrayList<ResultTableRowFX> resultTableRowFXs = new ArrayList<>();
     
+    private Boolean running = false;
+    
     private  Group groupGraph = new Group();
     private static int i =1;
     
     private GraphManager graphManager = new GraphManager();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Shape shape = Shape.union(line, triangle);
-        fleche.getChildren().clear();
-        fleche.getChildren().add(shape);
+        //Shape shape = Shape.union(line, triangle);
+        //fleche.getChildren().clear();
+//        fleche.getChildren().add(shape);
                
         
         spXi.setDisable(false);
@@ -144,7 +146,8 @@ public class FordFulkersonFXController implements Initializable{
     }
     
     private boolean refresh =false;
-    @FXML protected void btnTestAction(){
+    @FXML protected void btnStopAction(){
+        setRunning(false);
     }
     @FXML protected void btnRunAction(){
         try {
@@ -163,7 +166,7 @@ public class FordFulkersonFXController implements Initializable{
             
             }
             
-            
+            setRunning(true);
             
             
         } catch (AbstractModel.OptimizationTypeException ex) {
@@ -525,19 +528,7 @@ public class FordFulkersonFXController implements Initializable{
            
     
     }
-    private ArrayList getAllComponentData(){
-        
-        
-            if (anchPaneGraph.getChildren().contains(Group.class)) {
-                for (int j = 0; j < getGroupGraph().getChildren().size(); j++) {
-                    
-                     System.out.println(getGroupGraph().getChildren().get(j));
-                }
-               
-            }
-     
-        return null;
-    }
+
     private static boolean DISABLE_X1=false;
     private static boolean DISABLE_XI=true;
     private static boolean DISABLE_XN=true;
@@ -695,6 +686,20 @@ public class FordFulkersonFXController implements Initializable{
      */
     public void setGroupGraph(Group groupGraph) {
         this.groupGraph = groupGraph;
+    }
+
+    /**
+     * @return the running
+     */
+    public Boolean isRunning() {
+        return running;
+    }
+
+    /**
+     * @param running the running to set
+     */
+    public void setRunning(Boolean running) {
+        this.running = running;
     }
 
 }

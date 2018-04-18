@@ -146,7 +146,7 @@ public class ArcFX extends QuadCurve{
       });
       setOnMouseEntered(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
-          if (!mouseEvent.isPrimaryButtonDown()) {
+          if (!mouseEvent.isPrimaryButtonDown()  && !controller.isRunning()) {
             getScene().setCursor(Cursor.HAND);
            setStroke(Color.GREEN);
            txfVij.setStyle("-fx-border-color:green;");
@@ -157,7 +157,7 @@ public class ArcFX extends QuadCurve{
       });
       setOnMouseExited(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
-          if (!mouseEvent.isPrimaryButtonDown()) {
+          if (!mouseEvent.isPrimaryButtonDown()  && !controller.isRunning()) {
             getScene().setCursor(Cursor.DEFAULT);
             setStroke(Color.BLACK.deriveColor(0, 1, 1, 0.5));
             txfVij.setStyle("-fx-border-color:gray;");
