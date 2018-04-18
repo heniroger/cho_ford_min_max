@@ -205,9 +205,11 @@ public class FordFulkersonFXController implements Initializable{
         try {
             if (!chkMaximize.isSelected()) {
                 data.clear();
-                tabView.getItems().clear();
+                System.err.println("data:"+data.size());
                 data = FXCollections.observableArrayList(getMinimization());
                 tabView.setItems(data);
+
+
             }else{
                  data.clear();
                 tabView.getItems().clear();
@@ -433,7 +435,7 @@ public class FordFulkersonFXController implements Initializable{
         return getResultTableRowFXs();
     }
     public final ArrayList<ResultTableRowFX> getMinimization()throws AbstractModel.OptimizationTypeException{
-         GraphManager  graphManager = getGraphManager();
+        GraphManager  graphManager = getGraphManager();
         ArrayList<ArcFX> arcFXs = graphManager.getArcFXList();
         ArrayList<SommetFX> sommetFXs = graphManager.getSommetFXList();
         this.setOptimisationType(FordFulkerson.MINIMIZATION_TYPE);
@@ -463,10 +465,20 @@ public class FordFulkersonFXController implements Initializable{
 
         this.control();//Tsy maintsy asiana anio ein!! Tsy azo atao am place hafa
 
+        System.err.println("getModelResultRows():"+this.getModelResultRows().size());
+        if (getResultTableRowFXs().size()> 0) {
+            System.err.println("getResultTableRowFXs() Bis:"+getResultTableRowFXs().size());
+            getResultTableRowFXs().clear();
+        }
         for (int i = 0; i < this.getModelResultRows().size(); i++) {
+             //System.err.println("getResultTableRowFXs() Bis:"+getResultTableRowFXs().size());
+
+
             addResultTableRowFXs(new ResultTableRowFX(this.getModelResultRows().get(i)));
 
         }
+        System.err.println("getResultTableRowFXs():"+this.getResultTableRowFXs().size());
+
             
 
        
@@ -503,7 +515,12 @@ public class FordFulkersonFXController implements Initializable{
 
         this.control();//Tsy maintsy asiana anio ein!! Tsy azo atao am place hafa
 
+        if (getResultTableRowFXs().size()> 0) {
+                System.err.println("getResultTableRowFXs() Bis:"+getResultTableRowFXs().size());
+                getResultTableRowFXs().clear();
+        }
         for (int i = 0; i < this.getModelResultRows().size(); i++) {
+           
             addResultTableRowFXs(new ResultTableRowFX(this.getModelResultRows().get(i)));
 
         }
