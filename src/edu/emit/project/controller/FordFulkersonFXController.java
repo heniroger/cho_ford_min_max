@@ -8,6 +8,7 @@ import edu.emit.project.model.AbstractModel;
 import edu.emit.project.model.FordFulkerson;
 import edu.emit.project.model.Gamma;
 import edu.emit.project.model.GraphColorifier;
+import edu.emit.project.model.LambdaManager;
 import edu.emit.project.model.Sommet;
 import edu.emit.project.model.serializable.DataSerializable;
 import edu.emit.project.model.serializable.GraphManager;
@@ -367,12 +368,16 @@ public class FordFulkersonFXController implements Initializable{
             getModel().calculerMinimisation();
             ArrayList<Sommet> sommets =getModel().calculerCheminMinimal(getModel().getListSommet());
             GraphColorifier colorifier = new GraphColorifier(sommets, getGraphManager());
+            LambdaManager lambdaManager = new LambdaManager(sommets, getGraphManager());
+            lambdaManager.update();
             setController(this);
             colorifier.colorify();
         }else if(getModel().getOptimisationType()== FordFulkerson.MAXIMIZATION_TYPE){
             getModel().calculerMaximisation();
-             ArrayList<Sommet> sommets =getModel().calculerCheminMinimal(getModel().getListSommet());
+            ArrayList<Sommet> sommets =getModel().calculerCheminMinimal(getModel().getListSommet());
             GraphColorifier colorifier = new GraphColorifier(sommets, getGraphManager());
+            LambdaManager lambdaManager = new LambdaManager(sommets, getGraphManager());
+            lambdaManager.update();
             setController(this);
             colorifier.colorify();
         }else{
