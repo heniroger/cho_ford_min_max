@@ -71,7 +71,14 @@ public class GraphManager {
           Pointe pointe = new Pointe();
           pointe.linkTo(arcFX, 40.0f);
           main.pointes.add(pointe);
-
+          
+            System.err.println(pointe.getLayoutX()+" Pointe Layout X getLayout");
+            System.err.println(pointe.getLayoutY()+" Pointe Layout Y getLayout");
+            System.err.println(arcFX.getLayoutX()+" ArcFX Layout X getLayout");
+            System.err.println(arcFX.getLayoutY()+" ArcFX  Layout Y getLayout");
+            System.err.println(arcFX.getControlX()+" ArcFX Control X getControl");
+            System.err.println(arcFX.getControlY()+" ArcFX  Control Y getControl");
+          
           arcFX.setPointe(pointe);
           arcFX.lier(Tetha.startSommet.centerXProperty(), Tetha.startSommet.centerYProperty(), Tetha.endSommet.centerXProperty(), Tetha.endSommet.centerYProperty());
           arcFX.setController(getController());

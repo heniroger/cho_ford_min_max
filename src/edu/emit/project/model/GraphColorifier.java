@@ -148,7 +148,6 @@ public class GraphColorifier {
                        arcx2.getStrokeDashArray().setAll(10.0,5.0);
                        arcx2.getPointe().setFill(Color.RED);
 
-                       System.err.println("Color.RED");
                       
                 }
 

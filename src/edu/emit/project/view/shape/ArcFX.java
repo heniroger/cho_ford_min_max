@@ -71,6 +71,8 @@ public class ArcFX extends QuadCurve{
         endXProperty().bind(endX);
         endYProperty().bind(endY);
         
+        
+        
 //        controlXProperty().bind(getPointe().layoutXProperty());
 //        controlYProperty().bind(getPointe().layoutXProperty());
         
@@ -79,8 +81,8 @@ public class ArcFX extends QuadCurve{
         getTxfVij().layoutXProperty().bind(controlXProperty().add(75));
         getTxfVij().layoutYProperty().bind(controlYProperty().subtract(10));
         
-        getPointe().translateXProperty().bind(controlXProperty());
-        getPointe().translateYProperty().bind(controlYProperty());
+       // getPointe().translateXProperty().bind(controlXProperty());
+        //getPointe().translateYProperty().bind(controlYProperty());
      
          enableClickEvent();
          enableDrag();
@@ -139,13 +141,14 @@ public class ArcFX extends QuadCurve{
             if (mouseEvent.isPrimaryButtonDown()) {
                     double newX = mouseEvent.getX() + dragDelta.x;
                     if (newX > 0 && newX < getScene().getWidth()) {
-                      setControlX(newX);
+                      setControlX(newX);getPointe().setLayoutX(getControlX());
                     }  
                     double newY = mouseEvent.getY() + dragDelta.y;
                     if (newY > 0 && newY < getScene().getHeight()) {
                       setControlY(newY);
-                    }  
-                
+                    }
+                    
+               
             }
           
         }

@@ -16,7 +16,7 @@ import javafx.scene.shape.QuadCurve;
 
 public class Pointe extends Polygon{
     private final Pointe context = this;
-    Double[] points = {0.0, 10.0, -10.0, -10.0, 10.0, -10.0};
+    Double[] points = {0.0, 5.0, -5.0, -5.0, 5.0, -5.0};
     private QuadCurve lien;
     private Double radius;
 
@@ -42,10 +42,14 @@ public class Pointe extends Polygon{
         double subtractHeight = radius * height / length;
 
         setRotate(angle - 90);
-        //setTranslateX(lien.getStartX());
-        //setTranslateY(lien.getStartY());
-        //setTranslateX(lien.getEndX()- subtractWidth);
-        //setTranslateY(lien.getEndY() - subtractHeight);
+        
+        setTranslateX(lien.getStartX());
+        setTranslateY(lien.getStartY());
+        setTranslateX(lien.getEndX()- subtractWidth);
+        setTranslateY(lien.getEndY() - subtractHeight);
+        
+        setTranslateX(lien.getControlX());
+        setTranslateY(lien.getControlY());
         
     }
 
