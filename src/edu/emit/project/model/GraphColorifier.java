@@ -114,6 +114,8 @@ public class GraphColorifier {
                     Integer integr = intList.get(j);
                     if (sx.getID()== integr) {
                        sx.setStroke(Color.RED.deriveColor(0, 1, 1, 0.5));
+                       sx.getTxfLambda().setStyle("-fx-border-color: #dd6b6b;");
+                       sx.getLblLambda().setTextFill(Color.RED.deriveColor(0, 1, 1, 0.5));
                      }
                     
                 }
@@ -130,6 +132,8 @@ public class GraphColorifier {
                         && arcx1.getListSommets().get(1).getID()==arcx2.getListSommets().get(1).getID() ) {
                       arcx2.setStroke(Color.RED.deriveColor(0, 1, 1, 0.5));
                       arcx2.getPointe().setStroke(Color.RED.deriveColor(0, 1, 1, 0.5));
+                      arcx2.getTxfVij().setStyle("-fx-border-color: #dd6b6b;");
+                      arcx2.getVij().setTextFill(Color.RED.deriveColor(0, 1, 1, 0.5));
                 }
 
             }
@@ -147,6 +151,35 @@ public class GraphColorifier {
 
         
         
+    
+    }
+    
+    public void decolorify(){
+        ArcFX arcx = null;
+        SommetFX sommetx = null;
+        setGroup(getFordFulkersonFXController().getGroupGraph());
+
+          for (int i = 0; i < getGroup().getChildren().size(); i++) {
+               if (getGroup().getChildren().get(i).getClass().equals(SommetFX.class)) {
+                    sommetx = (SommetFX)getGroup().getChildren().get(i);
+                    sommetx.setStroke(Color.BLACK.deriveColor(0, 1, 1, 0.5));
+                    sommetx.getTxfLambda().setStyle("-fx-border-color: #212121;");
+                    sommetx.getLblLambda().setTextFill(Color.BLACK.deriveColor(0, 1, 1, 0.5));
+
+               }
+           }
+          for (int i = 0; i < getGroup().getChildren().size(); i++) {
+
+              if (getGroup().getChildren().get(i).getClass().equals(ArcFX.class)) {
+                   arcx = (ArcFX)getGroup().getChildren().get(i);
+                   arcx.setStroke(Color.BLACK.deriveColor(0, 1, 1, 0.5));
+                   arcx.getPointe().setStroke(Color.BLACK.deriveColor(0, 1, 1, 0.5));
+                   arcx.getTxfVij().setStyle("-fx-border-color: #212121;");
+                   arcx.getVij().setTextFill(Color.BLACK.deriveColor(0, 1, 1, 0.5));
+              }
+           
+
+         }
     
     }
     private ArrayList<ArcFX> sortArcFXLst(  ArrayList<Sommet[]> sommetsArray){

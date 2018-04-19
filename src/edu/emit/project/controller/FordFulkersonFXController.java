@@ -148,8 +148,13 @@ public class FordFulkersonFXController implements Initializable{
     private boolean refresh =false;
     @FXML protected void btnStopAction(){
         setRunning(false);
+        GraphColorifier graphColorifier = new GraphColorifier(null, graphManager);
+        graphColorifier.decolorify();
     }
     @FXML protected void btnRunAction(){
+        if (isRunning()) {
+            return;
+        }
         try {
             if (!chkMaximize.isSelected()) {
                 data.clear();
