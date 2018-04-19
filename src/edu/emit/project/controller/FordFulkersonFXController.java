@@ -31,15 +31,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import edu.emit.project.view.shape.SommetFX;
@@ -147,12 +143,15 @@ public class FordFulkersonFXController implements Initializable{
     
     private boolean refresh =false;
     @FXML protected void btnStopAction(){
-        setRunning(false);
-        GraphColorifier graphColorifier = new GraphColorifier(null, graphManager);
-        graphColorifier.decolorify();
+        if (getGraphManager()!= null) {
+           setRunning(false);
+           GraphColorifier graphColorifier = new GraphColorifier(null,getGraphManager());
+           graphColorifier.decolorify();           
+        }
+
     }
     @FXML protected void btnRunAction(){
-        if (isRunning()) {
+        if (isRunning() || getGraphManager() == null) {
             return;
         }
         try {
@@ -275,16 +274,8 @@ public class FordFulkersonFXController implements Initializable{
         disableSpX(spXi, TYPE_XI);
         disableSpX(spXn, TYPE_XN);
         main.sommetIndexEmpty.clear();
-//        SommetFX.clearXiList();
-        
-//        for (int j = 0; j < getGroupGraph().getChildren().size(); j++) {
-//            if (getGroupGraph().getChildren().get(j).getClass().equals(Xi.class)) {
-//                ((Xi)getGroupGraph().getChildren().get(1)).resetIteration();
-//                break;
-//            }
-//            
-//        }
-        
+
+        setGraphManager(null);
         tabView.getItems().clear();
         getGroupGraph().getChildren().clear();
     }

@@ -5,6 +5,7 @@
  */
 package edu.emit.project.view.shape;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.QuadCurve;
 
@@ -41,10 +42,10 @@ public class Pointe extends Polygon{
         double subtractHeight = radius * height / length;
 
         setRotate(angle - 90);
-        setTranslateX(lien.getStartX());
-        setTranslateY(lien.getStartY());
-        setTranslateX(lien.getEndX()- subtractWidth);
-        setTranslateY(lien.getEndY() - subtractHeight);
+        //setTranslateX(lien.getStartX());
+        //setTranslateY(lien.getStartY());
+        //setTranslateX(lien.getEndX()- subtractWidth);
+        //setTranslateY(lien.getEndY() - subtractHeight);
         
     }
 
