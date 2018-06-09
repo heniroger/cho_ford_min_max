@@ -73,6 +73,7 @@ public abstract class AbstractModel {
         
         boolean restart =false;
         int startIndex=0;
+        this.resultRows.clear();
         
         for (int i = 0; i < sommets.size(); i++) {
             xi= getListSommet().get(i);
@@ -112,7 +113,7 @@ public abstract class AbstractModel {
             }
         }
         
-    
+        System.err.println("this.resultRows:"+this.resultRows.size());
     }
     public void calculerMaximisation(){
         ArrayList<Sommet> sommets = getListSommet();
@@ -125,6 +126,7 @@ public abstract class AbstractModel {
         
         boolean restart =false;
         int startIndex=0;
+        this.resultRows.clear();
         
         for (int i = 0; i < sommets.size(); i++) {
             xi= getListSommet().get(i);
@@ -164,6 +166,7 @@ public abstract class AbstractModel {
             }
         }
         
+        System.err.println("this.resultRows:"+this.resultRows.size());
 
     }
    

@@ -54,6 +54,7 @@ public class ArcFX extends QuadCurve{
         txfVij.setPrefWidth(50);
         txfVij.setLayoutX(getControlX()-75);
         txfVij.setLayoutY(getControlY()+75);
+        txfVij.setStyle("-fx-background-color: yellow;");
     } 
     public void lier(DoubleProperty startX,DoubleProperty startY,DoubleProperty endX,DoubleProperty endY){
         try {
@@ -69,12 +70,19 @@ public class ArcFX extends QuadCurve{
         startYProperty().bind(startY);
         endXProperty().bind(endX);
         endYProperty().bind(endY);
-       // controlXProperty().bind(startX.add(endX));
-        //controlXProperty().bind(startY.add(endY));
+        
+        
+        
+//        controlXProperty().bind(getPointe().layoutXProperty());
+//        controlYProperty().bind(getPointe().layoutXProperty());
+        
         getVij().layoutXProperty().bind(controlXProperty().add(15));
         getVij().layoutYProperty().bind(controlYProperty().subtract(5));
         getTxfVij().layoutXProperty().bind(controlXProperty().add(75));
         getTxfVij().layoutYProperty().bind(controlYProperty().subtract(10));
+        
+       // getPointe().translateXProperty().bind(controlXProperty());
+        //getPointe().translateYProperty().bind(controlYProperty());
      
          enableClickEvent();
          enableDrag();
@@ -133,23 +141,25 @@ public class ArcFX extends QuadCurve{
             if (mouseEvent.isPrimaryButtonDown()) {
                     double newX = mouseEvent.getX() + dragDelta.x;
                     if (newX > 0 && newX < getScene().getWidth()) {
-                      setControlX(newX);
+                      setControlX(newX);getPointe().setLayoutX(getControlX());
                     }  
                     double newY = mouseEvent.getY() + dragDelta.y;
                     if (newY > 0 && newY < getScene().getHeight()) {
                       setControlY(newY);
-                    }  
-                
+                    }
+                    
+               
             }
           
         }
       });
       setOnMouseEntered(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
-          if (!mouseEvent.isPrimaryButtonDown()) {
+          if (!mouseEvent.isPrimaryButtonDown()  && !controller.isRunning()) {
             getScene().setCursor(Cursor.HAND);
            setStroke(Color.GREEN);
            txfVij.setStyle("-fx-border-color:green;");
+           txfVij.setStyle("-fx-background-color: green;");
            vij.setTextFill(Color.GREEN);
 
           }
@@ -157,11 +167,12 @@ public class ArcFX extends QuadCurve{
       });
       setOnMouseExited(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
-          if (!mouseEvent.isPrimaryButtonDown()) {
+          if (!mouseEvent.isPrimaryButtonDown()  && !controller.isRunning()) {
             getScene().setCursor(Cursor.DEFAULT);
             setStroke(Color.BLACK.deriveColor(0, 1, 1, 0.5));
             txfVij.setStyle("-fx-border-color:gray;");
-           vij.setTextFill(Color.BLACK);
+            txfVij.setStyle("-fx-background-color: yellow;");
+            vij.setTextFill(Color.BLACK);
 
           }
         }

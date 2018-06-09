@@ -8,15 +8,12 @@ import edu.emit.project.model.AbstractModel;
 import edu.emit.project.model.FordFulkerson;
 import edu.emit.project.model.Gamma;
 import edu.emit.project.model.GraphColorifier;
+import edu.emit.project.model.LambdaManager;
 import edu.emit.project.model.Sommet;
 import edu.emit.project.model.serializable.DataSerializable;
 import edu.emit.project.model.serializable.GraphManager;
-import edu.emit.project.model.serializable.SommetSerializable;
 import edu.emit.project.view.shape.ArcFX;
-import edu.emit.project.view.shape.ArcFXOld;
-import edu.emit.project.view.shape.X1;
-import edu.emit.project.view.shape.Xi;
-import edu.emit.project.view.shape.Xn;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,20 +31,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import edu.emit.project.view.shape.SommetFX;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
@@ -60,19 +54,16 @@ public class FordFulkersonFXController implements Initializable{
     
     private FordFulkersonFXController controller = this;
     Main main  = new Main();
-    @FXML private Button btnSave;
-    @FXML private Button btnOpen;
-    @FXML private Button btnRun;
-    @FXML private Button btnClear;
-    @FXML private Button btnTest;
+
     
     @FXML private StackPane spX1;
     @FXML private StackPane spXi;
     @FXML private StackPane spXn;
+    @FXML private CheckBox chkMaximize;
     
-    @FXML private Polygon triangle;
-    @FXML private Line line;
-    @FXML private Group fleche;
+    //@FXML private Polygon triangle;
+    //@FXML private Line line;
+    //@FXML private Group fleche;
     
     
     @FXML private AnchorPane anchPaneGraph;
@@ -90,15 +81,17 @@ public class FordFulkersonFXController implements Initializable{
     private ObservableList<ResultTableRowFX> data ;
     private  ArrayList<ResultTableRowFX> resultTableRowFXs = new ArrayList<>();
     
+    private Boolean running = false;
+    
     private  Group groupGraph = new Group();
     private static int i =1;
     
     private GraphManager graphManager = new GraphManager();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Shape shape = Shape.union(line, triangle);
-        fleche.getChildren().clear();
-        fleche.getChildren().add(shape);
+        //Shape shape = Shape.union(line, triangle);
+        //fleche.getChildren().clear();
+//        fleche.getChildren().add(shape);
                
         
         spXi.setDisable(false);
@@ -149,65 +142,35 @@ public class FordFulkersonFXController implements Initializable{
     }
     
     private boolean refresh =false;
-    @FXML protected void btnTestAction(){
-    
-        Group g =(Group)anchPaneGraph.getChildren().get(0);
-        SommetSerializable sommetSerializable;
-        SommetFX sommetFX=null;
-         double centerX;
-         double centerY;
-         double lambda;
-         int iteration=0;
-         int iterationType=0;
-         
-        for (int j = 0; j < g.getChildren().size(); j++) {
-            
-            if (!g.getChildren().get(j).equals(X1.class)|| !g.getChildren().get(j).equals(Xi.class) || !g.getChildren().get(j).equals(Xn.class)) {
-                // System.out.println(g.getChildren().get(j));
-                if (g.getChildren().get(j).equals(X1.class)) {
-                   // sommetFX =(X1) g.getChildren().get (j);
-                    
-                }else if (g.getChildren().get(j).equals(Xi.class)) {
-                    //sommetFX =(Xi) g.getChildren().get (j);
-                }else if (g.getChildren().get(j).equals(Xn.class)) {
-                    //sommetFX =(Xn) g.getChildren().get (j);
-                }
-             centerX = sommetFX.getCenterX();
-             centerY = sommetFX.getCenterY();
-            // lambda =sommetFX.getLambdaValue();
-          /*   
-             if (sommetFX.getIteration()==1) {
-                 iterationType = SommetSerializable.X1;
-              } else if(sommetFX.getIteration()==sommetFX.getLastIteration()){
-                 iterationType = SommetSerializable.XN;
-              }else{
-                 iterationType = SommetSerializable.XI;
-                  
-              }
-             */
-                
-             //sommetSerializable = new SommetSerializable(centerX, centerY,lambda , iterationType, iteration, 0, 0);
-                 
-              //   System.out.println(sommetSerializable);
-                 
-              }
-            
-               
-
-            
-            
+    @FXML protected void btnStopAction(){
+        if (getGraphManager()!= null) {
+           setRunning(false);
+           GraphColorifier graphColorifier = new GraphColorifier(null,getGraphManager());
+           graphColorifier.decolorify();           
         }
-        
+
     }
     @FXML protected void btnRunAction(){
+        if (isRunning() || getGraphManager() == null) {
+            return;
+        }
         try {
-           
-            data.clear();
-            tabView.getItems().clear();
-            data = FXCollections.observableArrayList(getMinimization());
-            tabView.setItems(data);
+            if (!chkMaximize.isSelected()) {
+                data.clear();
+                System.err.println("data:"+data.size());
+                data = FXCollections.observableArrayList(getMinimization());
+                tabView.setItems(data);
+
+
+            }else{
+                 data.clear();
+                tabView.getItems().clear();
+                data = FXCollections.observableArrayList(getMaximization());
+                tabView.setItems(data);
             
+            }
             
+            setRunning(true);
             
             
         } catch (AbstractModel.OptimizationTypeException ex) {
@@ -303,7 +266,6 @@ public class FordFulkersonFXController implements Initializable{
                 }
             }
         }
-        //dirChooser
         
     }
     
@@ -311,16 +273,9 @@ public class FordFulkersonFXController implements Initializable{
         enableSpX(spX1, TYPE_X1);
         disableSpX(spXi, TYPE_XI);
         disableSpX(spXn, TYPE_XN);
-    //    SommetFX.clearXiList();
-        
-        for (int j = 0; j < getGroupGraph().getChildren().size(); j++) {
-            if (getGroupGraph().getChildren().get(j).getClass().equals(Xi.class)) {
-                ((Xi)getGroupGraph().getChildren().get(1)).resetIteration();
-                break;
-            }
-            
-        }
-        
+        main.sommetIndexEmpty.clear();
+
+        setGraphManager(null);
         tabView.getItems().clear();
         getGroupGraph().getChildren().clear();
     }
@@ -356,15 +311,18 @@ public class FordFulkersonFXController implements Initializable{
             getModel().calculerMinimisation();
             ArrayList<Sommet> sommets =getModel().calculerCheminMinimal(getModel().getListSommet());
             GraphColorifier colorifier = new GraphColorifier(sommets, getGraphManager());
+            LambdaManager lambdaManager = new LambdaManager(sommets, getGraphManager());
+            lambdaManager.update();
             setController(this);
             colorifier.colorify();
         }else if(getModel().getOptimisationType()== FordFulkerson.MAXIMIZATION_TYPE){
             getModel().calculerMaximisation();
-             ArrayList<Sommet> sommets =getModel().calculerCheminMinimal(getModel().getListSommet());
-             for (int i = 0; i < sommets.size(); i++) {
-                // System.err.println(sommets.get(i));
-                 
-             }
+            ArrayList<Sommet> sommets =getModel().calculerCheminMinimal(getModel().getListSommet());
+            GraphColorifier colorifier = new GraphColorifier(sommets, getGraphManager());
+            LambdaManager lambdaManager = new LambdaManager(sommets, getGraphManager());
+            lambdaManager.update();
+            setController(this);
+            colorifier.colorify();
         }else{
             Log.error(this);
         }
@@ -425,7 +383,7 @@ public class FordFulkersonFXController implements Initializable{
         return getResultTableRowFXs();
     }
     public final ArrayList<ResultTableRowFX> getMinimization()throws AbstractModel.OptimizationTypeException{
-         GraphManager  graphManager = getGraphManager();
+        GraphManager  graphManager = getGraphManager();
         ArrayList<ArcFX> arcFXs = graphManager.getArcFXList();
         ArrayList<SommetFX> sommetFXs = graphManager.getSommetFXList();
         this.setOptimisationType(FordFulkerson.MINIMIZATION_TYPE);
@@ -455,7 +413,62 @@ public class FordFulkersonFXController implements Initializable{
 
         this.control();//Tsy maintsy asiana anio ein!! Tsy azo atao am place hafa
 
+        System.err.println("getModelResultRows():"+this.getModelResultRows().size());
+        if (getResultTableRowFXs().size()> 0) {
+            System.err.println("getResultTableRowFXs() Bis:"+getResultTableRowFXs().size());
+            getResultTableRowFXs().clear();
+        }
         for (int i = 0; i < this.getModelResultRows().size(); i++) {
+             //System.err.println("getResultTableRowFXs() Bis:"+getResultTableRowFXs().size());
+
+
+            addResultTableRowFXs(new ResultTableRowFX(this.getModelResultRows().get(i)));
+
+        }
+        System.err.println("getResultTableRowFXs():"+this.getResultTableRowFXs().size());
+
+            
+
+       
+        return getResultTableRowFXs();
+    }
+    public final ArrayList<ResultTableRowFX> getMaximization()throws AbstractModel.OptimizationTypeException{
+         GraphManager  graphManager = getGraphManager();
+        ArrayList<ArcFX> arcFXs = graphManager.getArcFXList();
+        ArrayList<SommetFX> sommetFXs = graphManager.getSommetFXList();
+        this.setOptimisationType(FordFulkerson.MAXIMIZATION_TYPE);
+        this.setNombreSommet(sommetFXs.size());
+
+        ArrayList<Object[]> objects = new ArrayList<>();
+        ArrayList<Object[]> obs = new ArrayList<>();
+         Gamma gamma = new Gamma();
+
+         for (int j = 0; j < arcFXs.size(); j++) {
+            ArcFX arcFX = arcFXs.get(j);
+            arcFX.getListSommets();
+            
+            objects.add(new Object[]{arcFX.getListSommets().get(0).getID(),arcFX.getListSommets().get(1).getID(),arcFX.getV_ij()});
+   
+        }
+         obs = gamma.convertToArrangedArrayList(objects);
+         
+         for (int k = 0; k < obs.size(); k++) {
+                 Integer from = (Integer)obs.get(k)[0];
+                 Integer to  = (Integer)obs.get(k)[1];
+                 Double vij  = (Double)obs.get(k)[2];
+                this.setArc(from,to, vij);
+                 
+          }
+
+
+        this.control();//Tsy maintsy asiana anio ein!! Tsy azo atao am place hafa
+
+        if (getResultTableRowFXs().size()> 0) {
+                System.err.println("getResultTableRowFXs() Bis:"+getResultTableRowFXs().size());
+                getResultTableRowFXs().clear();
+        }
+        for (int i = 0; i < this.getModelResultRows().size(); i++) {
+           
             addResultTableRowFXs(new ResultTableRowFX(this.getModelResultRows().get(i)));
 
         }
@@ -463,8 +476,7 @@ public class FordFulkersonFXController implements Initializable{
 
        
         return getResultTableRowFXs();
-    }
-    
+    }    
     private void addResultTableRowFXs(ResultTableRowFX resultTableRowFX){
         resultTableRowFXs.add(resultTableRowFX);
     }
@@ -472,22 +484,6 @@ public class FordFulkersonFXController implements Initializable{
         return this.resultTableRowFXs;
     }
     
-    private Group testGraphicSommet(){
-        X1 x1= new X1();
-        Xi x2 = new Xi();
-        Xi x3 = new Xi();
-        Xi x4 = new Xi();
-        Xi x5 = new Xi();
-        Xn xn = new Xn();
-        
-        ArcFXOld arc = new ArcFXOld();
-        ArcFXOld arc2 = new ArcFXOld();
-        ArcFXOld arc3 = new ArcFXOld();
-        
-        Group g = new Group();
-        g.getChildren().addAll(x1,x2,x3,x4,x5,xn,arc,arc2,arc3);
-        return g;
-    }
     
     private void disableSpX(StackPane toolbarXi,int type){
         toolbarXi.setStyle("-fx-background-color:#BBBBBB");
@@ -528,19 +524,7 @@ public class FordFulkersonFXController implements Initializable{
            
     
     }
-    private ArrayList getAllComponentData(){
-        
-        
-            if (anchPaneGraph.getChildren().contains(Group.class)) {
-                for (int j = 0; j < getGroupGraph().getChildren().size(); j++) {
-                    
-                     System.out.println(getGroupGraph().getChildren().get(j));
-                }
-               
-            }
-     
-        return null;
-    }
+
     private static boolean DISABLE_X1=false;
     private static boolean DISABLE_XI=true;
     private static boolean DISABLE_XN=true;
@@ -620,7 +604,6 @@ public class FordFulkersonFXController implements Initializable{
                     getGroupGraph().getChildren().add(x1.getTxfLambda());
                     
                     getGraphManager().getSommetFXList().add(x1);
-                    //makeDraggable(x1, spX1);
                     disableSpX(spX1, TYPE_X1);
                     enableSpX(spXi, TYPE_XI);
                 }
@@ -699,6 +682,20 @@ public class FordFulkersonFXController implements Initializable{
      */
     public void setGroupGraph(Group groupGraph) {
         this.groupGraph = groupGraph;
+    }
+
+    /**
+     * @return the running
+     */
+    public Boolean isRunning() {
+        return running;
+    }
+
+    /**
+     * @param running the running to set
+     */
+    public void setRunning(Boolean running) {
+        this.running = running;
     }
 
 }

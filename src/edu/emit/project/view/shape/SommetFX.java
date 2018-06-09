@@ -138,17 +138,21 @@ public class SommetFX extends Circle{
       });
       setOnMouseEntered(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
-          if (!mouseEvent.isPrimaryButtonDown()) {
+          if (!mouseEvent.isPrimaryButtonDown() && !controller.isRunning()) {
             getScene().setCursor(Cursor.HAND);
             setStroke(Color.BLUE);
+            txfLambda.setStyle("-fx-border-color: blue;");
+            lblLambda.setTextFill(Color.BLUE);
           }
         }
       });
       setOnMouseExited(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
-          if (!mouseEvent.isPrimaryButtonDown()) {
+          if (!mouseEvent.isPrimaryButtonDown()  && !controller.isRunning()) {
             getScene().setCursor(Cursor.DEFAULT);
              setStroke(Color.BLACK.deriveColor(0, 1, 1, 0.5));
+             txfLambda.setStyle("-fx-border-color: gray;");
+             lblLambda.setTextFill(Color.GRAY);
           }
         }
       });
